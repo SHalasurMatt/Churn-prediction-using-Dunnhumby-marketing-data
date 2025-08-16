@@ -1,49 +1,77 @@
-# ADM Final Project
+# Customer Analytics & CLTV Prediction with Linear Regression
 
-## Project Overview
-This repository contains the final project for the Advanced Data Modeling (ADM) course. The project involves [brief description of project objective, e.g., analyzing dataset X to predict Y using regression models and exploratory data analysis]. The goal is to provide actionable insights and data-driven recommendations based on the analysis.
+This project demonstrates how to calculate key **customer analytics metrics** such as **Customer Lifetime Value (CLTV), Repeat Rate, Churn Rate, Average Order Value, Purchase Frequency**, and how to build and evaluate a **Linear Regression model** for predictive analytics.
 
-## Dataset
-The dataset used in this project is sourced from [source name, e.g., Kaggle, UCI, or company dataset]. Key characteristics of the dataset include:
-- Number of rows: [insert]
-- Number of columns: [insert]
-- Features: [brief description of important features]
+---
 
-## Project Workflow
-The analysis follows a structured workflow:
+## 📊 Key Business Metrics
 
-1. **Data Collection & Cleaning**
-   - Handling missing values
-   - Data type conversions
-   - Data normalization and preprocessing
+The following formulas are used:
 
-2. **Exploratory Data Analysis (EDA)**
-   - Summary statistics
-   - Visualization of trends and relationships
-   - Identification of outliers and anomalies
+- **Repeat Rate** =  
+  `Number of Customers Who Ordered in Last 3 Months / Total Number of Customers`
 
-3. **Predictive Modeling**
-   - Regression techniques applied: [list models used, e.g., Linear Regression, Ridge, Lasso]
-   - Model evaluation using [metrics, e.g., RMSE, R², MAE]
+- **Churn Rate** =  
+  `1 - Repeat Rate`
 
-4. **Insights & Recommendations**
-   - Key findings from the data analysis
-   - Recommendations for business or research decisions
+- **Average Order Value (AOV)** =  
+  `Total Revenue / Total Number of Orders`
 
-## Tools & Libraries
-The project was implemented using:
-- Python 3.x
-- Pandas, NumPy for data manipulation
-- Matplotlib, Seaborn for visualization
-- Scikit-learn for predictive modeling
-- Jupyter Notebook for code execution and documentation
+- **Purchase Frequency (PF)** =  
+  `Total Number of Orders / Total Number of Customers`
 
-## How to Run
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/ADM_Final_Project.git
+- **Customer Value (CV)** =  
+  `Average Order Value × Purchase Frequency`
 
-Install the required libraries:
-pip install -r requirements.txt
+- **Customer Lifetime Value (CLTV)** =  
+  `((Average Order Value × Purchase Frequency) / Churn Rate) × Profit Margin`
 
-Open ADM_Final_Project.ipynb in Jupyter Notebook to explore the analysis and visualizations.
+---
+
+## 🤖 Machine Learning
+
+To understand model performance, the dataset is divided into **training** and **test** sets.  
+
+- **Features**: Independent variables (X)  
+- **Target**: Dependent variable we want to predict (y)  
+- **Test Size**: Split ratio (e.g., 0.2 for 80/20 train–test split)  
+- **Random State**: Seed for reproducibility (using `random_state`).  
+  - If `None`, a new seed is chosen each run (results vary).  
+
+### Steps:
+1. **Import Linear Regression**
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+
+2. **Split the data**
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+3. **Create and train the model**
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+
+4. **Make predictions**
+y_pred = model.predict(X_test)
+
+
+5. **Evaluate performance** (MAE, MSE, R², etc.)
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+print("MAE:", mean_absolute_error(y_test, y_pred))
+print("MSE:", mean_squared_error(y_test, y_pred))
+print("R²:", r2_score(y_test, y_pred))
+
+
+## 🛠️ Project Structure
+
+├── data/ # Raw & processed datasets
+├── notebooks/ # Jupyter notebooks for exploration
+├── scripts/ # Python scripts for metrics, CLTV, and ML pipeline
+│ ├── metrics.py # Functions to calculate CLTV, churn, repeat rate, etc.
+│ ├── model.py # Linear Regression implementation
+├── requirements.txt # Python dependencies
+└── README.md # Project documentation
+
+
